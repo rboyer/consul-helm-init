@@ -1,0 +1,4 @@
+/consul-helm
+/chart.release.name
+/helm-consul-values.yaml
+/config.vars.bash

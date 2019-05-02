@@ -1,0 +1,5 @@
+cluster_name=
+gcloud_project=
+gcloud_zone=
+# optional
+consul_license_file=

@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ping
+  annotations:
+    "consul.hashicorp.com/connect-inject": "true"
+    "consul.hashicorp.com/connect-service-upstreams": "pong:9090"
+spec:
+  serviceAccount: ping
+  containers:
+    - name: ping
+      image: rboyer/pingpong:latest
+      args:
+        - '-bind'
+        - '127.0.0.1:8080'
+        - '-dial'
+        - '127.0.0.1:9090'
+        - '-dump-to-logs'
+      ports:
+        - containerPort: 8080
+          name: http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pong
+  annotations:
+    "consul.hashicorp.com/connect-inject": "true"
+    "consul.hashicorp.com/connect-service-upstreams": "ping:9090"
+spec:
+  serviceAccount: pong
+  containers:
+    - name: pong
+      image: rboyer/pingpong:latest
+      args:
+        - '-bind'
+        - '127.0.0.1:8080'
+        - '-dial'
+        - '127.0.0.1:9090'
+        - '-dump-to-logs'
+      ports:
+        - containerPort: 8080
+          name: http
