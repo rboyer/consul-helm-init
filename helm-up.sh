@@ -97,9 +97,11 @@ echo "binding rules>>>"
 consul_cmd acl binding-rule list -token="${token}"
 echo
 
-echo "license >>>"
-consul_cmd license get -token="${token}"
-echo
+if [[ -n "${consul_license_file}" ]]; then
+    echo "license >>>"
+    consul_cmd license get -token="${token}"
+    echo
+fi
 
 echo "============== SETUP PINGPONG =============="
 echo
